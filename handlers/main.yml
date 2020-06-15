@@ -24,6 +24,11 @@
     name: mongod
     state: restarted
 
+- name: restart freeswitch-watchdog
+  service:
+    name: freeswitch-watchdog
+    state: restarted
+
 - name: reload systemd
   systemd:
     daemon_reload: yes
