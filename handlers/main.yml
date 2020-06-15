@@ -28,6 +28,7 @@
   service:
     name: freeswitch-watchdog
     state: restarted
+  become: true
 
 - name: reload systemd
   systemd:

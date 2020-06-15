@@ -1,5 +1,6 @@
 
 - name: install freeswitch-watchdog
+  become: yes
   apt:
     deb: https://gitlab.senfcall.de/senfcall-public/freeswitch-watchdog/-/raw/master/freeswitch-watchdog_0.1.3_amd64.deb
 
