@@ -1,0 +1,24 @@
+[Unit]
+Description=watchdog for obscure freeswitch bug that prevents websocket connections
+ConditionPathExists=/usr/bin/freeswitch-watchdog
+After=network.target
+Requires=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+
+Restart=on-failure
+RestartSec=10
+StartLimitInterval=60
+
+WorkingDirectory=/tmp
+ExecStart=/usr/bin/freeswitch-watchdog
+
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=freeswitch-watchdog
+
+[Install]
+WantedBy=multi-user.target
