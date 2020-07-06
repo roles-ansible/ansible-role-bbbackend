@@ -6,11 +6,19 @@
       - python3-setuptools
     state: "{{ bbb_state }}"
 
+- name: upgrade pip, so zipp can be installed
+  pip:
+    name:
+      - pip
+    extra_args: "--upgrade"
+    state: "{{ bbb_state }}"
+
 - name: install python docker packages
   pip:
     name:
       - docker
       - docker-compose
+      - zipp
     state: "{{ bbb_state }}"
 
 - name: create greenlight directory
