@@ -10,7 +10,12 @@ WORK IN PROGRESS
 
 | Variable Name | Function | Default value | Comment |
 | ------------- | -------- | ------------- | ------- |
-| `bbbackend.state` | Install BigBlueButton to state | `present` | for updating BigBlueButton with this role use `latest` |
+| `bbbackend_state` | Install BigBlueButton to state | `present` | for updating BigBlueButton with this role use `latest` |
+| `bbbackend_manage_packages` | install requirements for bbb | `true` | if you manage required packages yourself, disable it. |
+| `bbbackend_manage_repositories` | Add repositorys for bbb | `true` | if you add the repositorys for bbb by yourself, disable it. |
+|
+
+
 
 | `bbb_hostname` | Hostname for this BigBlueButton instance _(required)_ | `{{ ansible_fqdn }}` |
 | `bbb_apt_mirror` | apt repo server for BigBlueButton packages | `https://ubuntu.bigbluebutton.org` | other value would be e.g. `https://packages-eu.bigbluebutton.org` |

@@ -1,23 +1,9 @@
 ---
-- name: combine bbbackend configuration
-  set_fact:
-    bbbackend: "{{ _bbbackend|combine(bbbackend, recursive=True) }}"
-
-- name: Install required packages
-  become: true
-  apt:
-    name: "{{ bbbackend.required_packages }}"
-    update_cache: true
-    state: "{{ bbbackend.state }}"
-
-- name: set version of java to use
-  file:
-    src: /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
-    dest: /etc/alternatives/java
-    state: link
-  notify: restart bigbluebutton
+- include_tasks: packages.yml
+  when: bbbackend_manage_packages | bool
 
 - import_tasks: repositories.yml
+  when: bbbackend_manage_repositories | bool
 
 - name: install bbb and dependencies
   apt:
