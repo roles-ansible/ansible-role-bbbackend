@@ -14,8 +14,7 @@ bbbackend_required_packages:
   - python3-wheel
   - openjdk-8-jdk
 
-bbb_and_dependencies:
-  - mongodb-org
+bbbackend_bbb_and_dependencies:
   - bbb-check
   - bbb-html5
   - bigbluebutton

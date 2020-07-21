@@ -6,11 +6,10 @@
   when: bbbackend_manage_repositories | bool
 
 - name: install bbb and dependencies
+  become: true
   apt:
-    name: "{{ bbb_and_dependencies }}"
-    state: "{{ bbb_state }}"
-
-- import_tasks: mongodb.yml
+    name: "{{ bbbackend_bbb_and_dependencies }}"
+    state: "{{ bbbackend_state }}"
 
 - name: LXD | disable freeswitch scheduling options
   replace:
