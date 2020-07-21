@@ -14,14 +14,16 @@ bbbackend__letsencrypt_enable: true
 
 
 bbbackend__disable_recordings: false
-bbb_api_demos_enable: false
-bbb_mute_on_start: false
-bbb_app_log_level: 'DEBUG'
+bbbackend__mute_on_start: false
+bbbackend__app_log_level: 'DEBUG'
+
+bbbackend__meteor: {}
+
+bbbackend__nginx_privacy: true
+bbbackend__nginx_dh: true
 
 # -----
 
-bbb_nginx_privacy: true
-bbb_nginx_dh: true
 
 bbb_coturn_enable: true
 bbb_coturn_port: 3478
@@ -48,7 +50,6 @@ bbb_cpuschedule: true
 bbb_freeswitch_ipv6: true
 bbb_freeswitch_external_ip: "stun:{{ (bbb_stun_servers | first).server }}"
 
-bbb_meteor: {}
 bbb_dialplan_quality: "cdquality"
 bbb_dialplan_energy_level: 100
 bbb_dialplan_comfort_noise: 1400

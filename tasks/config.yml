@@ -65,7 +65,7 @@
   lineinfile:
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^muteOnStart'
-    line: 'muteOnStart={{ bbb_mute_on_start | ternary("false", "true") }}'
+    line: 'muteOnStart={{ bbbackend__mute_on_start | ternary("false", "true") }}'
   notify: restart bigbluebutton
 
 - name: set appLogLevel
@@ -73,7 +73,7 @@
   lineinfile:
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^appLogLevel'
-    line: 'appLogLevel={{ bbb_app_log_level }}'
+    line: 'appLogLevel={{ bbbackend__app_log_level }}'
   notify: restart bigbluebutton
 
 - name: set red5 to use HTTPS 1/2
@@ -143,7 +143,7 @@
 
 - name: combine meteor config
   set_fact:
-    meteor: "{{ meteor | combine(bbb_meteor, recursive=true) }}"
+    meteor: "{{ meteor | combine(bbbackend__meteor, recursive=true) }}"
 
 - name: write back new meteor config
   become: true
@@ -165,7 +165,7 @@
   file:
     path: /etc/nginx/ssl
     state: directory
-  when: bbb_nginx_dh
+  when: bbbackend__nginx_dh
 
 - name: Deploy DH Parameters with a different size (4096 bits)
   become: true
@@ -176,7 +176,7 @@
     group: root
     mode: '0644'
   notify: reload nginx
-  when: bbb_nginx_dh
+  when: bbbackend__nginx_dh
 
 - name: copy bbb's nginx vhost
   become: true
