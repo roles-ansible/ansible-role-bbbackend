@@ -13,6 +13,10 @@ bbbackend__ssl_key: "/etc/letsencrypt/live/{{ bbb_hostname }}/privkey.pem"
 bbbackend__letsencrypt_enable: true
 
 
+bbbackend__disable_recordings: false
+bbb_api_demos_enable: false
+bbb_mute_on_start: false
+bbb_app_log_level: 'DEBUG'
 
 # -----
 
@@ -39,19 +43,10 @@ bbb_turn_servers:
   secret: "{{ bbb_coturn_secret }}"
   tls: true
 
-bbb_allow_mail_notifications: true
-bbb_greenlight_hosts: "{{ bbb_hostname }}"
-bbb_disable_recordings: false
-bbb_api_demos_enable: false
-bbb_mute_on_start: false
-bbb_app_log_level: 'DEBUG'
 bbb_nodejs_version: 8.x
 bbb_cpuschedule: true
 bbb_freeswitch_ipv6: true
 bbb_freeswitch_external_ip: "stun:{{ (bbb_stun_servers | first).server }}"
-bbb_system_locale: en_US.UTF-8
-bbb_mongodb_version: 3.4
-
 
 bbb_meteor: {}
 bbb_dialplan_quality: "cdquality"

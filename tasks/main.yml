@@ -25,13 +25,13 @@
 - name: Check if bbbackend__ssl_cert exists
   stat:
     path: "{{ bbbackend__ssl_cert }}"
-  register: bbbackbonecert
+  register: bbbackendcert
 
 - import_tasks: letsencrypt.yml
-  when: bbbackend__letsencrypt_enable and not bbbackbonecert.stat.exists
+  when: bbbackend__letsencrypt_enable and not bbbackendcert.stat.exists
 
 - import_tasks: certificate-selfsigned.yml
-  when: not bbbackend__letsencrypt_enable and not bbbackbonecert.stat.exists
+  when: not bbbackend__letsencrypt_enable and not bbbackendcert.stat.exists
 
 - import_tasks: config.yml
 

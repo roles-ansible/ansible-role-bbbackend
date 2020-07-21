@@ -1,16 +1,19 @@
 ---
 - name: register current bbb properties
+  become: true
   slurp:
     src: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
   register: properties
 
 - name: set bbb hostname
-  command: "bbb-conf --setip {{ bbb_hostname }}"
   become: true
-  when: properties['content'] | b64decode | regex_search(bbb_hostname, multiline=True, ignorecase=True) != bbb_hostname
+  command: "bbb-conf --setip {{ bbbackend__hostname }}"
+  become: true
+  when: properties['content'] | b64decode | regex_search(bbbackend__hostname, multiline=True, ignorecase=True) != bbbackend__hostname
   notify: restart bigbluebutton
 
 - name: enable join via html5
+  become: true
   lineinfile:
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^attendeesJoinViaHTML5Client'
@@ -18,6 +21,7 @@
   notify: restart bigbluebutton
 
 - name: enable mod join via html5
+  become: true
   lineinfile:
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^moderatorsJoinViaHTML5Client'
@@ -25,20 +29,23 @@
   notify: restart bigbluebutton
 
 - name: set bbb to use HTTPS
+  become: true
   lineinfile:
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^bigbluebutton.web.serverURL'
-    line: 'bigbluebutton.web.serverURL=https://{{ bbb_hostname }}'
+    line: 'bigbluebutton.web.serverURL=https://{{ bbbackend__hostname }}'
   notify: restart bigbluebutton
 
 - name: set recording default
+  become: true
   lineinfile:
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^disableRecordingDefault'
-    line: 'disableRecordingDefault={{ bbb_disable_recordings | ternary("true", "false") }}'
+    line: 'disableRecordingDefault={{ bbbackend__disable_recordings | ternary("true", "false") }}'
   notify: restart bigbluebutton
 
 - name: ensure recording auto start is disabled
+  become: true
   lineinfile:
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^autoStartRecording'
@@ -46,13 +53,15 @@
   notify: restart bigbluebutton
 
 - name: allow/disable users to start recordings
+  become: true
   lineinfile:
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^allowStartStopRecording'
-    line: 'allowStartStopRecording={{ bbb_disable_recordings | ternary("false", "true") }}'
+    line: 'allowStartStopRecording={{ bbbackend__disable_recordings | ternary("false", "true") }}'
   notify: restart bigbluebutton
 
 - name: set muteOnStart
+  become: true
   lineinfile:
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^muteOnStart'
@@ -60,6 +69,7 @@
   notify: restart bigbluebutton
 
 - name: set appLogLevel
+  become: true
   lineinfile:
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^appLogLevel'
@@ -67,26 +77,30 @@
   notify: restart bigbluebutton
 
 - name: set red5 to use HTTPS 1/2
+  become: true
   lineinfile:
     path: /usr/share/red5/webapps/screenshare/WEB-INF/screenshare.properties
     regexp: '^jnlpUrl'
-    line: 'jnlpUrl=https://{{ bbb_hostname }}/screenshare'
+    line: 'jnlpUrl=https://{{ bbbackend__hostname }}/screenshare'
   notify: restart bigbluebutton
 
 - name: set red5 to use HTTPS 2/2
+  become: true
   lineinfile:
     path: /usr/share/red5/webapps/screenshare/WEB-INF/screenshare.properties
     regexp: '^jnlpFile'
-    line: 'jnlpFile=https://{{ bbb_hostname }}/screenshare/screenshare.jnlp'
+    line: 'jnlpFile=https://{{ bbbackend__hostname }}/screenshare/screenshare.jnlp'
   notify: restart bigbluebutton
 
 - name: copy TURN config file
+  become: true
   template:
     src: bbb/turn-stun-servers.xml.j2
     dest: /usr/share/bbb-web/WEB-INF/classes/spring/turn-stun-servers.xml
   notify: restart bigbluebutton
 
 - name: serve recordings via https
+  become: true
   lineinfile:
     path: /usr/local/bigbluebutton/core/scripts/bigbluebutton.yml
     regexp: "playback_protocol"
@@ -94,6 +108,7 @@
   notify: restart bigbluebutton
 
 - name: set BigBlueButton client to load components via HTTPS
+  become: true
   notify: restart bigbluebutton
   replace:
     path: /var/www/bigbluebutton/client/conf/config.xml
@@ -101,6 +116,7 @@
     replace: 'https://'
 
 - name: set note server to use HTTPS
+  become: true
   notify: restart bigbluebutton
   replace:
     path: /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml
@@ -108,6 +124,7 @@
     replace: 'https://'
 
 - name: set korrento server to use HTTPS
+  become: true
   notify: restart bigbluebutton
   replace:
     path: /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml
@@ -115,6 +132,7 @@
     replace: 'wss://'
 
 - name: Read meteor
+  become: true
   slurp:
     path: /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml
   register: r_meteor
@@ -128,12 +146,14 @@
     meteor: "{{ meteor | combine(bbb_meteor, recursive=true) }}"
 
 - name: write back new meteor config
+  become: true
   notify: restart bigbluebutton
   copy:
     content: '{{ meteor  | to_nice_yaml }}'
     dest: /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml
 
 - name: configure freeswitch to use SSL
+  become: true
   lineinfile:
     path: /etc/bigbluebutton/nginx/sip.nginx
     regexp: "proxy_pass"
@@ -141,12 +161,14 @@
   notify: reload nginx
 
 - name: create ssl folder for nginx
+  become: true
   file:
     path: /etc/nginx/ssl
     state: directory
   when: bbb_nginx_dh
 
 - name: Deploy DH Parameters with a different size (4096 bits)
+  become: true
   copy:
     src: dhp-4096.pem
     dest: /etc/nginx/ssl/dhp-4096.pem
@@ -157,12 +179,14 @@
   when: bbb_nginx_dh
 
 - name: copy bbb's nginx vhost
+  become: true
   template:
      src: bbb/bigbluebutton.j2
      dest: /etc/nginx/sites-available/bigbluebutton
   notify: reload nginx
 
 - name: enable CPUSchedulingPolicy in FreeSWITCH service
+  become: true
   lineinfile:
     path: /lib/systemd/system/freeswitch.service
     regexp: '^#?CPUSchedulingPolicy=rr'
@@ -173,6 +197,7 @@
   when: bbb_cpuschedule
 
 - name: disable CPUSchedulingPolicy in FreeSWITCH service
+  become: true
   lineinfile:
     path: /lib/systemd/system/freeswitch.service
     regexp: '^#?CPUSchedulingPolicy=rr'
@@ -183,6 +208,7 @@
   when: not bbb_cpuschedule
 
 - name: enable IPv6 in FreeSWITCH service 1/2
+  become: true
   command:
     cmd: mv {{ item }}_ {{ item }}
     creates: "{{ item }}"
@@ -196,6 +222,7 @@
   - reload nginx
 
 - name: enable IPv6 in FreeSWITCH service 2/2
+  become: true
   lineinfile:
     path: /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
     regexp: '<param name="listen-ip" value="127.0.0.1"/>'
@@ -206,6 +233,7 @@
   - reload nginx
 
 - name: disable IPv6 in FreeSWITCH service 1/2
+  become: true
   command:
     cmd: mv {{ item }} {{ item }}_
     creates: "{{ item }}_"
@@ -219,6 +247,7 @@
   - reload nginx
 
 - name: disable IPv6 in FreeSWITCH service 2/2
+  become: true
   lineinfile:
     path: /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
     regexp: '<param name="listen-ip" value="::"/>'
@@ -229,6 +258,7 @@
   - reload nginx
 
 - name: FreeSWITCH dialplan quality
+  become: true
   replace:
     path: /opt/freeswitch/conf/dialplan/default/bbb_conference.xml
     regexp: '<action application="conference" data="\$1@.*"\/>'
@@ -238,6 +268,7 @@
   - reload nginx
 
 - name: FreeSWITCH dialplan quality (echo)
+  become: true
   replace:
     path: /opt/freeswitch/conf/dialplan/default/bbb_echo_to_conference.xml
     regexp: '<action application="conference" data="\${vbridge}@.*"\/>'
@@ -247,6 +278,7 @@
   - reload nginx
 
 - name: FreeSWITCH dialplan energy-level
+  become: true
   replace:
     path: /opt/freeswitch/etc/freeswitch/autoload_configs/conference.conf.xml
     after: '<profile name="{{ bbb_dialplan_quality }}">'
@@ -258,6 +290,7 @@
   - reload nginx
 
 - name: FreeSWITCH dialplan comfort-noise
+  become: true
   replace:
     path: /opt/freeswitch/etc/freeswitch/autoload_configs/conference.conf.xml
     after:   '<profile name="{{ bbb_dialplan_quality }}">'
@@ -269,6 +302,7 @@
   - reload nginx
 
 - name: FreeSWITCH external ip (rtp)
+  become: true
   replace:
     path: /opt/freeswitch/etc/freeswitch/vars.xml
     regexp:  '<X-PRE-PROCESS cmd="set" data="external_rtp_ip=.*"\/>'
@@ -278,6 +312,7 @@
   - reload nginx
 
 - name: FreeSWITCH external ip (sip)
+  become: true
   replace:
     path: /opt/freeswitch/etc/freeswitch/vars.xml
     regexp:  '<X-PRE-PROCESS cmd="set" data="external_sip_ip=.*"\/>'

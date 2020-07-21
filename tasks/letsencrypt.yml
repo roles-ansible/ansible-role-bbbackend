@@ -22,18 +22,18 @@
 
 - name: Register certbot certificate file
   stat:
-    path: "/etc/letsencrypt/live/{{ bbbackbone__hostname }}/fullchain.pem"
+    path: "/etc/letsencrypt/live/{{ bbbackend__hostname }}/fullchain.pem"
   register: certbot_certificate_file_path
   become: true
 
 - name: Generate Certificates with letsencrypt expire notifications
-  command: certbot certonly -d {{ bbbackbone__hostname }} --email {{ bbb_letsencrypt_email }} --agree-tos -n --nginx
+  command: certbot certonly -d {{ bbbackend__hostname }} --email {{ bbb_letsencrypt_email }} --agree-tos -n --nginx
   notify: reload nginx
   when: not certbot_certificate_file_path.stat.exists and bbb_letsencrypt_email is defined
   become: true
 
 - name: Generate Certificates without letsencrypt expire notifications
-  command: certbot certonly -d {{ bbbackbone__hostname }} --register-unsafely-without-email --agree-tos -n --nginx
+  command: certbot certonly -d {{ bbbackend__hostname }} --register-unsafely-without-email --agree-tos -n --nginx
   notify: reload nginx
   when: not certbot_certificate_file_path.stat.exists and bbb_letsencrypt_email is not defined
   become: true
