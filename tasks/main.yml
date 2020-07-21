@@ -15,13 +15,8 @@
 
 - meta: flush_handlers
 
-- name: Ensure mongod is started and enabled to start at boot.
-  service:
-    name: mongod
-    enabled: yes
-    state: started
-
 - name: Ensure nginx is started and enabled to start at boot.
+  become: true
   service:
     name: nginx
     enabled: yes

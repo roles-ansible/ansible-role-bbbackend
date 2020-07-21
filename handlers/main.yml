@@ -1,5 +1,6 @@
 ---
 - name: reload nginx
+  become: true
   service:
     name: nginx
     state: reloaded
@@ -19,11 +20,6 @@
     state: restarted
   become: true
 
-- name: restart mongo
-  service:
-    name: mongod
-    state: restarted
-
 - name: restart freeswitch-watchdog
   service:
     name: freeswitch-watchdog
@@ -31,5 +27,6 @@
   become: true
 
 - name: reload systemd
+  become: true
   systemd:
     daemon_reload: yes
