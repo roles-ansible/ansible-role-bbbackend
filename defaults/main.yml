@@ -1,4 +1,7 @@
 ---
+bbbackend:
+  state: 'present'
+
 bbb_hostname: "{{ ansible_fqdn }}"
 bbb_state: "present"
 bbb_letsencrypt_enable: true

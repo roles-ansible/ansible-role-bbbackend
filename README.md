@@ -7,10 +7,12 @@ WORK IN PROGRESS
 ```
 
 ## Role Variables
+
 | Variable Name | Function | Default value | Comment |
 | ------------- | -------- | ------------- | ------- |
+| `bbbackend.state` | Install BigBlueButton to state | `present` | for updating BigBlueButton with this role use `latest` |
+
 | `bbb_hostname` | Hostname for this BigBlueButton instance _(required)_ | `{{ ansible_fqdn }}` |
-| `bbb_state` | Install BigBlueButton to state | `present` | for updating BigBlueButton with this role use `latest`
 | `bbb_apt_mirror` | apt repo server for BigBlueButton packages | `https://ubuntu.bigbluebutton.org` | other value would be e.g. `https://packages-eu.bigbluebutton.org` |
 | `bbb_letsencrypt_enable` | Enable letsencrypt/HTTPS | `yes` |
 | `bbb_letsencrypt_email` | E-mail for use with letsencrypt | |
