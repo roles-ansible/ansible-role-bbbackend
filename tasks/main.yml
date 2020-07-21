@@ -1,34 +1,34 @@
 ---
 - include_tasks: packages.yml
-  when: bbbackend_manage_packages | bool
+  when: bbbackend__manage_packages | bool
 
 - import_tasks: repositories.yml
-  when: bbbackend_manage_repositories | bool
+  when: bbbackend__manage_repositories | bool
 
 - name: install bbb and dependencies
   become: true
   apt:
-    name: "{{ bbbackend_bbb_and_dependencies }}"
-    state: "{{ bbbackend_state }}"
+    name: "{{ bbbackend__bbb_and_dependencies }}"
+    state: "{{ bbbackend__state }}"
 
 - import_tasks: freeswitch.yml
 
 - meta: flush_handlers
 
 - name: Ensure nginx is started and enabled to start at boot.
-  become: true
   service:
     name: nginx
     enabled: yes
     state: started
+  become: true
 
-- name: Check if bbb_ssl_cert exists
+- name: Check if bbbackend__ssl_cert exists
   stat:
-    path: "{{ bbb_ssl_cert }}"
+    path: "{{ bbbackend__ssl_cert }}"
   register: bbbcert
 
 - import_tasks: letsencrypt.yml
-  when: bbb_letsencrypt_enable and not bbbcert.stat.exists
+  when: bbbackend__letsencrypt_enable and not bbbcert.stat.exists
 
 - import_tasks: certificate-selfsigned.yml
   when: not bbb_letsencrypt_enable and not bbbcert.stat.exists

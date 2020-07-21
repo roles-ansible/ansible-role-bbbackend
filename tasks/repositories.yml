@@ -2,8 +2,8 @@
 - name: add BigBlueButton apt key
   become: true
   apt_key:
-    url: "{{ bbbackend_apt_mirror }}/repo/bigbluebutton.asc"
-    id: '{{ bbbackend_apt_key }}'
+    url: "{{ bbbackend__apt_mirror }}/repo/bigbluebutton.asc"
+    id: '{{ bbbackend__apt_key }}'
     state: present
 
 - name: add multiverse apt repositories

@@ -1,5 +1,5 @@
 ---
-bbbackend_required_packages:
+bbbackend__required_packages:
   - language-pack-en
   - software-properties-common
   - haveged
@@ -14,7 +14,7 @@ bbbackend_required_packages:
   - python3-wheel
   - openjdk-8-jdk
 
-bbbackend_bbb_and_dependencies:
+bbbackend__bbb_and_dependencies:
   - bbb-check
   - bbb-html5
   - bigbluebutton
