@@ -11,18 +11,7 @@
     name: "{{ bbbackend_bbb_and_dependencies }}"
     state: "{{ bbbackend_state }}"
 
-- name: LXD | disable freeswitch scheduling options
-  replace:
-    dest: /lib/systemd/system/freeswitch.service
-    regexp: "{{ item.re }}"
-    replace: "{{ item.rep }}"
-    backup: yes
-    mode: '0644'
-  with_items:
-    - { re: '^IOSchedulingClass=realtime', rep: '#IOSchedulingClass=realtime' }
-    - { re: '^CPUSchedulingPolicy=rr', rep: '#CPUSchedulingPolicy=rr' }
-  notify:
-    - reload systemd
+- import_tasks: freeswitch.yml
 
 - meta: flush_handlers
 
