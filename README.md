@@ -1,5 +1,5 @@
 # BigBlueButton
-Ansible role for a backend bigbluebutton installation. Without any extra features like greenlight, ipostgres database etc.
+Ansible role for a backend bigbluebutton installation. Without any extra features like greenlight, postgres database etc.
 *(please visit the documentation on http://docs.bigbluebutton.org/install/install.html)*
 
 ```

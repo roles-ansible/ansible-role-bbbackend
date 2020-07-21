@@ -1,14 +1,14 @@
 ---
 galaxy_info:
   role_name: bigbluebutton
-  author: n0emis
+  author: L3D
   description: >
-    BigBlueButton installation (following the documentation on
-    http://docs.bigbluebutton.org/install/install.html)
+    Ansible role for a backend bigbluebutton installation.
+    Without any extra features like greenlight, databases etc.
 
   license: MIT
 
-  min_ansible_version: 2.0
+  min_ansible_version: 2.8
 
   platforms:
     - name: Ubuntu
@@ -16,10 +16,9 @@ galaxy_info:
         - xenial
         # - bionic
 
-  galaxy_tags: []
+  galaxy_tags:
+    - bbb
+    - backend
+    - bigbluebutton
 
-dependencies:
-  - role: geerlingguy.nodejs
-    vars:
-      nodejs_version: "{{ bbb_nodejs_version }}"
-  - role: geerlingguy.docker
+dependencies: []
