@@ -1,4 +1,6 @@
 ---
+bbbackend__hostname: "{{ ansible_fqdn }}"
+
 bbbackend__state: 'present'
 bbbackend__manage_packages: true
 
@@ -8,12 +10,12 @@ bbbackend__apt_key: '770C4267C5E63474D171B60937B5DD5EFAB46452'
 bbbackend__ssl_cert: "/etc/letsencrypt/live/{{ bbb_hostname }}/fullchain.pem"
 bbbackend__ssl_key: "/etc/letsencrypt/live/{{ bbb_hostname }}/privkey.pem"
 
+bbbackend__letsencrypt_enable: true
+
 
 
 # -----
-bbb_hostname: "{{ ansible_fqdn }}"
 
-bbb_letsencrypt_enable: true
 bbb_nginx_privacy: true
 bbb_nginx_dh: true
 
