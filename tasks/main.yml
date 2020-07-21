@@ -45,10 +45,10 @@
     state: started
 
 - name: Ensure nginx is started and enabled to start at boot.
-  service: 
-    name: nginx 
+  service:
+    name: nginx
     enabled: yes
-    state: started 
+    state: started
 
 - name: Check if bbb_ssl_cert exists
   stat:
@@ -68,6 +68,3 @@
 
 - import_tasks: coturn.yml
   when: bbb_coturn_enable
-
-- import_tasks: greenlight.yml
-  when: bbb_greenlight_enable

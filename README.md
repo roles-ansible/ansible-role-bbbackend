@@ -1,6 +1,6 @@
 # BigBlueButton
-Ansible role for a backend bigbluebutton installation (please visit the documentation on http://docs.bigbluebutton.org/install/install.html)
-Without any extra features like greenlight, ipostgres database etc.
+Ansible role for a backend bigbluebutton installation. Without any extra features like greenlight, ipostgres database etc.
+*(please visit the documentation on http://docs.bigbluebutton.org/install/install.html)*
 
 ```
 WORK IN PROGRESS
@@ -25,7 +25,6 @@ WORK IN PROGRESS
 | `bbb_stun_servers` | a list of STUN-Server to use | `{{ bbb_hostname }}` | an array with key `server` - take a look in defaults/main.yml
 | `bbb_ice_servers` | a list of RemoteIceCandidate for STUN | `[]` | in array with key `server`
 | `bbb_turn_servers` | a list of TURN-Server to use | `{{ bbb_hostname }}` with `{{ bbb_coturn_secret }}` | take a look in defaults/main.yml
-| `bbb_greenlight_enable` | enable installation of the greenlight client | `yes` |
 | `bbb_greenlight_hosts` | the hostname that greenlight is accessible from | `{{ bbb_hostname }}` |
 | `bbb_greenlight_secret` | Secret for greenlight _(required when using greenlight)_ |  | can be generated with `openssl rand -hex 64`
 | `bbb_greenlight_db_password` | Password for greenlight's database  _(required when using greenlight)_ | | can be generated with `openssl rand -hex 16`
