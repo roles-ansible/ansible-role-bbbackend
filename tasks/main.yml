@@ -37,6 +37,3 @@
 
 - import_tasks: freeswitch-watchdog.yml
   tags: [freeswitch-watchdog]
-
-- import_tasks: coturn.yml
-  when: bbb_coturn_enable

@@ -7,8 +7,8 @@ bbbackend__manage_packages: true
 bbbackend__apt_mirror: "https://ubuntu.bigbluebutton.org"
 bbbackend__apt_key: '770C4267C5E63474D171B60937B5DD5EFAB46452'
 
-bbbackend__ssl_cert: "/etc/letsencrypt/live/{{ bbb_hostname }}/fullchain.pem"
-bbbackend__ssl_key: "/etc/letsencrypt/live/{{ bbb_hostname }}/privkey.pem"
+bbbackend__ssl_cert: "/etc/letsencrypt/live/{{ bbbackend__hostname }}/fullchain.pem"
+bbbackend__ssl_key: "/etc/letsencrypt/live/{{ bbbackend__hostname }}/privkey.pem"
 
 bbbackend__letsencrypt_enable: true
 
@@ -22,25 +22,20 @@ bbbackend__meteor: {}
 bbbackend__nginx_privacy: true
 bbbackend__nginx_dh: true
 
+bbbackend__turn_enable: true
+
 # -----
 
 
-bbb_coturn_enable: true
-bbb_coturn_port: 3478
-bbb_coturn_port_tls: 3443
-bbb_coturn_server: "{{ bbb_hostname }}"
-#bbb_coturn_secret: "" <- undefined to set as required
-
-bbb_turn_enable: true
-bbb_stun_servers:
-- server: "{{ bbb_hostname }}"
+bbbackend__stun_servers:
+- server: "{{ bbbackend__hostname }}"
 bbb_ice_servers: []
 bbb_turn_servers:
-- server: "{{ bbb_hostname }}"
+- server: "{{ bbbackend__hostname }}"
   port: "{{ bbb_coturn_port }}"
   secret: "{{ bbb_coturn_secret }}"
   tls: false
-- server: "{{ bbb_hostname }}"
+- server: "{{ bbbackend__hostname }}"
   port: "{{ bbb_coturn_port_tls }}"
   secret: "{{ bbb_coturn_secret }}"
   tls: true
@@ -48,7 +43,7 @@ bbb_turn_servers:
 bbb_nodejs_version: 8.x
 bbb_cpuschedule: true
 bbb_freeswitch_ipv6: true
-bbb_freeswitch_external_ip: "stun:{{ (bbb_stun_servers | first).server }}"
+bbb_freeswitch_external_ip: "stun:{{ (bbbackend__stun_servers | first).server }}"
 
 bbb_dialplan_quality: "cdquality"
 bbb_dialplan_energy_level: 100

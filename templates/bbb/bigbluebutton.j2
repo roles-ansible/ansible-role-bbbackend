@@ -1,7 +1,7 @@
 server {
     listen 80;
     listen [::]:80;
-    server_name {{ bbb_hostname }};
+    server_name {{ bbbackend__hostname }};
     return 301 https://$host$request_uri;
 }
 
@@ -9,7 +9,7 @@ server {
 
   listen 443 ssl http2;
   listen [::]:443 ssl http2;
-  server_name {{ bbb_hostname }};
+  server_name {{ bbbackend__hostname }};
     ssl_certificate {{ bbb_ssl_cert }};
     ssl_certificate_key {{ bbb_ssl_key }};
     ssl_session_cache shared:SSL:10m;

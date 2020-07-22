@@ -23,8 +23,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
     xsi:schemaLocation="http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
             ">
-{% if bbb_turn_enable %}
-{% for item in bbb_stun_servers %}
+{% if bbbackend__turn_enable %}
+{% for item in bbbackend__stun_servers %}
     <bean id="stun{{ loop.index }}" class="org.bigbluebutton.web.services.turn.StunServer">
         <constructor-arg index="0" value="stun:{{ item.server }}"/>
     </bean>
@@ -52,8 +52,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
     <bean id="stunTurnService" class="org.bigbluebutton.web.services.turn.StunTurnService">
         <property name="stunServers">
             <set>
-{% if bbb_turn_enable %}
-{% for item in bbb_stun_servers %}
+{% if bbbackend__turn_enable %}
+{% for item in bbbackend__stun_servers %}
                 <ref bean="stun{{ loop.index }}" />
 {% endfor %}
 {% endif %}
@@ -61,7 +61,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
         </property>
         <property name="turnServers">
             <set>
-{% if bbb_turn_enable %}
+{% if bbbackend__turn_enable %}
 {% for item in bbb_turn_servers %}
                 <ref bean="turn{{ loop.index }}" />
 {% endfor %}
@@ -70,7 +70,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
         </property>
         <property name="remoteIceCandidates">
             <set>
-{% if bbb_turn_enable %}
+{% if bbbackend__turn_enable %}
 {% for item in bbb_ice_servers %}
                 <ref bean="iceCandidate{{ loop.index }}" />
 {% endfor %}
