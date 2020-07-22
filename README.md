@@ -25,14 +25,14 @@ WORK IN PROGRESS
 | `bbbackend__turn_enable` | enable the use uf TURN in general | `true` |
 | `bbbackend__stun_servers` | a list of STUN-Server to use | `{{ bbbackend__hostname }}` | an array with key `server` - take a look in defaults/main.yml
 | `bbbackend__ice_servers` | a list of RemoteIceCandidate for STUN | `[]` | in array with key `server`
-| `bbbackend__turn_servers` | a list of TURN-Server to use | [] | take a look in defaults/main.yml
+| `bbbackend__turn_servers` | a list of TURN-Server to use | `[]` | take a look in defaults/main.yml
 | `bbbackend__disable_recordings` | Disable options in gui to have recordings | `true` | [Recordings are running constantly in background](https://github.com/bigbluebutton/bigbluebutton/issues/9202) which is relevant as privacy relevant user data is stored
 | `bbbackend__mute_on_start:` | start with muted mic on join | `false` |
 | `bbbackend__app_log_level:` | set bigbluebutton log level | `DEBUG` |
 | `bbbackend__meteor:` | overwrite settings in meteor | `{}` |
 | `bbbackend__cpuschedule` | CPUSchedulingPolicy | `true` | Disable to fix [FreeSWITCH SETSCHEDULER error][bbb_cpuschedule] |
 | `bbbackend__freeswitch_ipv6` | Enable IPv6 support in FreeSWITCH | `false` | Disable to fix [FreeSWITCH IPv6 error][bbb_freeswitch_ipv6] |
-| `bbbackend__freeswitch_external_ip` | Set stun server for sip and rtp on FreeSWITCH | ``stun:{{ (bbbackend__stun_servers | first).server }}`` | WARNING: the value of the default freeswitch installation is `stun:stun.freeswitch.org` |
+| `bbbackend__freeswitch_external_ip` | Set stun server for sip and rtp on FreeSWITCH | <code>stun:{{ (bbbackend__stun_servers|first).server }}</code> | WARNING: the value of the default freeswitch installation is `stun:stun.freeswitch.org` |
 | `bbbackend__dialplan_quality` | Set quality of dailplan for FreeSWITCH | `cdquality` |
 | `bbbackend__dialplan_energy_level` | Set energy level of dailplan for FreeSWITCH | `100` | only for selected profile `bbb_dialplan_quality`
 | `bbbackend__dialplan_comfort_noise` | Set comfort noise of dailplan for FreeSWITCH | `1400` | only for selected profile `bbb_dialplan_quality`
