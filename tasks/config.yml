@@ -6,7 +6,6 @@
   register: properties
 
 - name: set bbb hostname
-  become: true
   command: "bbb-conf --setip {{ bbbackend__hostname }}"
   become: true
   when: properties['content'] | b64decode | regex_search(bbbackend__hostname, multiline=True, ignorecase=True) != bbbackend__hostname
