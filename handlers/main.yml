@@ -29,4 +29,4 @@
 - name: reload systemd
   become: true
   systemd:
-    daemon_reload: yes
+    daemon_reload: true

@@ -1,20 +1,20 @@
-
+---
 - name: install freeswitch-watchdog
-  become: yes
+  become: true
   apt:
-    deb: https://gitlab.senfcall.de/senfcall-public/freeswitch-watchdog/-/raw/master/freeswitch-watchdog_0.1.3_amd64.deb
-
+    deb: "{{ bbbackend__freeswitch_watchdog_deb }}"
 
 - name: Create the systemd service for freeswitch-watchdog
-  become: yes
+  become: true
   template:
     src: freeswitch-watchdog.service.j2
     dest: "/etc/systemd/system/freeswitch-watchdog.service"
   notify: restart freeswitch-watchdog
 
 - name: enable systemd service for freeswitch-watchdog
-  become: yes
+  become: true
   systemd:
     name: freeswitch-watchdog
     state: started
-    enabled: yes
+    enabled: true
+    daemon_reload: ture

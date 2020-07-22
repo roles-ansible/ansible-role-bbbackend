@@ -33,6 +33,7 @@ WORK IN PROGRESS
 | `bbbackend__cpuschedule` | CPUSchedulingPolicy | `true` | Disable to fix [FreeSWITCH SETSCHEDULER error][bbb_cpuschedule] |
 | `bbbackend__freeswitch_ipv6` | Enable IPv6 support in FreeSWITCH | `false` | Disable to fix [FreeSWITCH IPv6 error][bbb_freeswitch_ipv6] |
 | `bbbackend__freeswitch_external_ip` | Set stun server for sip and rtp on FreeSWITCH | <code>stun:{{ (bbbackend__stun_servers\|first).server }}</code> | WARNING: the value of the default freeswitch installation is `stun:stun.freeswitch.org` |
+| `bbbackend__freeswitch_watchdog` | Install watchdog to keep FreeSWITCH running | `true` |
 | `bbbackend__dialplan_quality` | Set quality of dailplan for FreeSWITCH | `cdquality` |
 | `bbbackend__dialplan_energy_level` | Set energy level of dailplan for FreeSWITCH | `100` | only for selected profile `bbb_dialplan_quality`
 | `bbbackend__dialplan_comfort_noise` | Set comfort noise of dailplan for FreeSWITCH | `1400` | only for selected profile `bbb_dialplan_quality`

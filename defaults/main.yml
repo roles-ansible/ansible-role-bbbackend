@@ -36,6 +36,7 @@ bbbackend__turn_servers: []
 bbbackend__cpuschedule: true
 bbbackend__freeswitch_ipv6: false
 bbbackend__freeswitch_external_ip: "stun:{{ (bbbackend__stun_servers | first).server }}"
+bbbackend__freeswitch_watchdog: true
 
 bbbackend__dialplan_quality: "cdquality"
 bbbackend__dialplan_energy_level: 100

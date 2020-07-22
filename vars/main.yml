@@ -18,3 +18,5 @@ bbbackend__bbb_and_dependencies:
   - bbb-check
   - bbb-html5
   - bigbluebutton
+
+bbbackend__freeswitch_watchdog_deb: https://gitlab.senfcall.de/senfcall-public/freeswitch-watchdog/-/raw/master/freeswitch-watchdog_0.1.3_amd64.deb

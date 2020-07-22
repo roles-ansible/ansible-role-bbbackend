@@ -36,4 +36,4 @@
 - import_tasks: config.yml
 
 - import_tasks: freeswitch-watchdog.yml
-  tags: [freeswitch-watchdog]
+  when: bbbackend__freeswitch_watchdog | bool
