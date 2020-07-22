@@ -12,7 +12,7 @@
       - certbot
       - python3-certbot-nginx
     update_cache: true
-    state: "{{ bbb_state }}"
+    state: "{{ bbbackend__state }}"
 
 - name: Change Let's Encrypt API to v2
   become: true
@@ -27,14 +27,14 @@
   become: true
 
 - name: Generate Certificates with letsencrypt expire notifications
-  command: certbot certonly -d {{ bbbackend__hostname }} --email {{ bbb_letsencrypt_email }} --agree-tos -n --nginx
+  command: certbot certonly -d {{ bbbackend__hostname }} --email {{ bbbackend__letsencrypt_email }} --agree-tos -n --nginx
   notify: reload nginx
-  when: not certbot_certificate_file_path.stat.exists and bbb_letsencrypt_email is defined
+  when: not certbot_certificate_file_path.stat.exists and bbbackend__letsencrypt_email is defined
   become: true
 
 - name: Generate Certificates without letsencrypt expire notifications
   command: certbot certonly -d {{ bbbackend__hostname }} --register-unsafely-without-email --agree-tos -n --nginx
   notify: reload nginx
-  when: not certbot_certificate_file_path.stat.exists and bbb_letsencrypt_email is not defined
+  when: not certbot_certificate_file_path.stat.exists and bbbackend_letsencrypt_email is not defined
   become: true
 

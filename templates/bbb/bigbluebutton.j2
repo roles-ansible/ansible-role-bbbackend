@@ -10,8 +10,8 @@ server {
   listen 443 ssl http2;
   listen [::]:443 ssl http2;
   server_name {{ bbbackend__hostname }};
-    ssl_certificate {{ bbb_ssl_cert }};
-    ssl_certificate_key {{ bbb_ssl_key }};
+    ssl_certificate {{ bbbackend__ssl_cert }};
+    ssl_certificate_key {{ bbbackend__ssl_key }};
     ssl_session_cache shared:SSL:10m;
     ssl_session_timeout 10m;
     ssl_protocols TLSv1.2;

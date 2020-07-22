@@ -194,7 +194,7 @@
   notify:
   - restart freeswitch
   - reload systemd
-  when: bbb_cpuschedule
+  when: bbbackend__cpuschedule | bool
 
 - name: disable CPUSchedulingPolicy in FreeSWITCH service
   become: true
@@ -205,7 +205,7 @@
   notify:
   - freeswitch
   - reload systemd
-  when: not bbb_cpuschedule
+  when: not bbbackend__cpuschedule | bool
 
 - name: enable IPv6 in FreeSWITCH service 1/2
   become: true
@@ -216,7 +216,7 @@
   with_items:
     - "/opt/freeswitch/etc/freeswitch/sip_profiles/internal-ipv6.xml"
     - "/opt/freeswitch/etc/freeswitch/sip_profiles/external-ipv6.xml"
-  when: bbb_freeswitch_ipv6
+  when: bbbackend__freeswitch_ipv6 | bool
   notify:
   - restart freeswitch
   - reload nginx
@@ -227,7 +227,7 @@
     path: /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
     regexp: '<param name="listen-ip" value="127.0.0.1"/>'
     line: '<param name="listen-ip" value="::"/>'
-  when: bbb_freeswitch_ipv6
+  when: bbbackend__freeswitch_ipv6 | bool
   notify:
   - restart freeswitch
   - reload nginx
@@ -241,7 +241,7 @@
   with_items:
     - "/opt/freeswitch/etc/freeswitch/sip_profiles/internal-ipv6.xml"
     - "/opt/freeswitch/etc/freeswitch/sip_profiles/external-ipv6.xml"
-  when: not bbb_freeswitch_ipv6
+  when: not bbbackend__freeswitch_ipv6 | bool
   notify:
   - restart freeswitch
   - reload nginx
@@ -252,7 +252,7 @@
     path: /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
     regexp: '<param name="listen-ip" value="::"/>'
     line: '<param name="listen-ip" value="127.0.0.1"/>'
-  when: not bbb_freeswitch_ipv6
+  when: not bbbackend__freeswitch_ipv6 | bool
   notify:
   - restart freeswitch
   - reload nginx
@@ -262,7 +262,7 @@
   replace:
     path: /opt/freeswitch/conf/dialplan/default/bbb_conference.xml
     regexp: '<action application="conference" data="\$1@.*"\/>'
-    replace: '<action application="conference" data="$1@{{ bbb_dialplan_quality }}"/>'
+    replace: '<action application="conference" data="$1@{{ bbbackend__dialplan_quality }}"/>'
   notify:
   - restart freeswitch
   - reload nginx
@@ -272,7 +272,7 @@
   replace:
     path: /opt/freeswitch/conf/dialplan/default/bbb_echo_to_conference.xml
     regexp: '<action application="conference" data="\${vbridge}@.*"\/>'
-    replace: '<action application="conference" data="${vbridge}@{{ bbb_dialplan_quality }}"/>'
+    replace: '<action application="conference" data="${vbridge}@{{ bbbackend__dialplan_quality }}"/>'
   notify:
   - restart freeswitch
   - reload nginx
@@ -281,10 +281,10 @@
   become: true
   replace:
     path: /opt/freeswitch/etc/freeswitch/autoload_configs/conference.conf.xml
-    after: '<profile name="{{ bbb_dialplan_quality }}">'
+    after: '<profile name="{{ bbbackend__dialplan_quality }}">'
     before: '</profile>'
     regexp: '<param name="energy-level" value=".*"\/>'
-    replace: '<param name="energy-level" value="{{ bbb_dialplan_energy_level }}"/>'
+    replace: '<param name="energy-level" value="{{ bbbackend__dialplan_energy_level }}"/>'
   notify:
   - restart freeswitch
   - reload nginx
@@ -293,10 +293,10 @@
   become: true
   replace:
     path: /opt/freeswitch/etc/freeswitch/autoload_configs/conference.conf.xml
-    after:   '<profile name="{{ bbb_dialplan_quality }}">'
+    after:   '<profile name="{{ bbbackend__dialplan_quality }}">'
     before:  '</profile>'
     regexp:  '<param name="comfort-noise" value=".*"\/>'
-    replace: '<param name="comfort-noise" value="{{ bbb_dialplan_comfort_noise }}"/>'
+    replace: '<param name="comfort-noise" value="{{ bbbackend__dialplan_comfort_noise }}"/>'
   notify:
   - restart freeswitch
   - reload nginx
@@ -306,7 +306,7 @@
   replace:
     path: /opt/freeswitch/etc/freeswitch/vars.xml
     regexp:  '<X-PRE-PROCESS cmd="set" data="external_rtp_ip=.*"\/>'
-    replace: '<X-PRE-PROCESS cmd="set" data="external_rtp_ip={{ bbb_freeswitch_external_ip }}"/>'
+    replace: '<X-PRE-PROCESS cmd="set" data="external_rtp_ip={{ bbbackend__freeswitch_external_ip }}"/>'
   notify:
   - restart freeswitch
   - reload nginx
@@ -316,7 +316,7 @@
   replace:
     path: /opt/freeswitch/etc/freeswitch/vars.xml
     regexp:  '<X-PRE-PROCESS cmd="set" data="external_sip_ip=.*"\/>'
-    replace: '<X-PRE-PROCESS cmd="set" data="external_sip_ip={{ bbb_freeswitch_external_ip }}"/>'
+    replace: '<X-PRE-PROCESS cmd="set" data="external_sip_ip={{ bbbackend__freeswitch_external_ip }}"/>'
   notify:
   - restart freeswitch
   - reload nginx

@@ -33,5 +33,5 @@
     repo: "{{ item }}"
     state: present
   with_items:
-    - "deb {{ bbb_apt_mirror }}/xenial-22/ bigbluebutton-xenial main"
+    - "deb {{ bbbackend__apt_mirror }}/xenial-22/ bigbluebutton-xenial main"
   when: ansible_distribution_release == 'xenial'

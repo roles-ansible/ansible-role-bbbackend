@@ -23,29 +23,20 @@ bbbackend__nginx_privacy: true
 bbbackend__nginx_dh: true
 
 bbbackend__turn_enable: true
-
-# -----
-
-
 bbbackend__stun_servers:
 - server: "{{ bbbackend__hostname }}"
-bbb_ice_servers: []
-bbb_turn_servers:
-- server: "{{ bbbackend__hostname }}"
-  port: "{{ bbb_coturn_port }}"
-  secret: "{{ bbb_coturn_secret }}"
-  tls: false
-- server: "{{ bbbackend__hostname }}"
-  port: "{{ bbb_coturn_port_tls }}"
-  secret: "{{ bbb_coturn_secret }}"
-  tls: true
+bbbbackend__ice_servers: []
+bbbackend_turn_servers: []
+# - server: "{{ bbbackend__hostname }}"
+#   port: "443"
+#   secret: "g3he1m"
+#   tls: true
 
-bbb_nodejs_version: 8.x
-bbb_cpuschedule: true
-bbb_freeswitch_ipv6: true
-bbb_freeswitch_external_ip: "stun:{{ (bbbackend__stun_servers | first).server }}"
+bbbackend__cpuschedule: true
+bbbackend__freeswitch_ipv6: false
+bbbackend__freeswitch_external_ip: "stun:{{ (bbbackend__stun_servers | first).server }}"
 
-bbb_dialplan_quality: "cdquality"
-bbb_dialplan_energy_level: 100
-bbb_dialplan_comfort_noise: 1400
+bbbackend__dialplan_quality: "cdquality"
+bbbackend__dialplan_energy_level: 100
+bbbackend__dialplan_comfort_noise: 1400
 
