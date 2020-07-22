@@ -33,6 +33,8 @@
 - import_tasks: certificate-selfsigned.yml
   when: not bbbackend__letsencrypt_enable and not bbbackendcert.stat.exists
 
+- import_tasks: nginx.yml
+
 - import_tasks: config.yml
 
 - import_tasks: freeswitch-watchdog.yml

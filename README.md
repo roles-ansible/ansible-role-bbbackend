@@ -6,6 +6,17 @@ Ansible role for a backend bigbluebutton installation. Without any extra feature
 WORK IN PROGRESS
 ```
 
+## What does this role do?
+
++ add apt repos for bigbluebutton
++ install bigbluebutton and requirements
++ disable freeswitch scheduling options for LXD
++ configure and start nginx.
++ create letsencrypt or self-signed cert
++ configure bigbluebutton *(more in tasks/config.yml)*
++ add watchdog for freeswitch
+
+
 ## Role Variables
 
 | Variable Name | Function | Default value | Comment |

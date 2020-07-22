@@ -159,31 +159,6 @@
     line: "        proxy_pass https://{{ ansible_default_ipv4.address }}:7443;"
   notify: reload nginx
 
-- name: create ssl folder for nginx
-  become: true
-  file:
-    path: /etc/nginx/ssl
-    state: directory
-  when: bbbackend__nginx_dh
-
-- name: Deploy DH Parameters with a different size (4096 bits)
-  become: true
-  copy:
-    src: dhp-4096.pem
-    dest: /etc/nginx/ssl/dhp-4096.pem
-    owner: root
-    group: root
-    mode: '0644'
-  notify: reload nginx
-  when: bbbackend__nginx_dh
-
-- name: copy bbb's nginx vhost
-  become: true
-  template:
-     src: bbb/bigbluebutton.j2
-     dest: /etc/nginx/sites-available/bigbluebutton
-  notify: reload nginx
-
 - name: enable CPUSchedulingPolicy in FreeSWITCH service
   become: true
   lineinfile:
