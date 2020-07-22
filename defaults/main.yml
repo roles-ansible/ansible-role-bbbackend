@@ -3,6 +3,7 @@ bbbackend__hostname: "{{ ansible_fqdn }}"
 
 bbbackend__state: 'present'
 bbbackend__manage_packages: true
+bbbackend__manage_repositories: true
 
 bbbackend__apt_mirror: "https://ubuntu.bigbluebutton.org"
 bbbackend__apt_key: '770C4267C5E63474D171B60937B5DD5EFAB46452'
@@ -13,7 +14,7 @@ bbbackend__ssl_key: "/etc/letsencrypt/live/{{ bbbackend__hostname }}/privkey.pem
 bbbackend__letsencrypt_enable: true
 
 
-bbbackend__disable_recordings: false
+bbbackend__disable_recordings: true
 bbbackend__mute_on_start: false
 bbbackend__app_log_level: 'DEBUG'
 
@@ -25,8 +26,8 @@ bbbackend__nginx_dh: true
 bbbackend__turn_enable: true
 bbbackend__stun_servers:
 - server: "{{ bbbackend__hostname }}"
-bbbbackend__ice_servers: []
-bbbackend_turn_servers: []
+bbbackend__ice_servers: []
+bbbackend__turn_servers: []
 # - server: "{{ bbbackend__hostname }}"
 #   port: "443"
 #   secret: "g3he1m"

@@ -40,7 +40,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
          http://tools.ietf.org/html/draft-uberti-behave-turn-rest-00
          as supported by the coturn and rfc5766-turn-server turn servers -->
 
-{% for item in bbbackend_turn_servers %}
+{% for item in bbbackend__turn_servers %}
     <bean id="turn{{ loop.index }}" class="org.bigbluebutton.web.services.turn.TurnServer">
         <constructor-arg index="0" value="{{ item.secret }}"/>
         <constructor-arg index="1" value="turn{% if item.tls %}s{% endif%}:{{item.server}}:{{ item.port }}?transport=tcp"/>
@@ -62,7 +62,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
         <property name="turnServers">
             <set>
 {% if bbbackend__turn_enable %}
-{% for item in bbbackend_turn_servers %}
+{% for item in bbbackend__turn_servers %}
                 <ref bean="turn{{ loop.index }}" />
 {% endfor %}
 {% endif %}

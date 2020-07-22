@@ -10,46 +10,33 @@ WORK IN PROGRESS
 
 | Variable Name | Function | Default value | Comment |
 | ------------- | -------- | ------------- | ------- |
-| `bbbackend_state` | Install BigBlueButton to state | `present` | for updating BigBlueButton with this role use `latest` |
-| `bbbackend_manage_packages` | install requirements for bbb | `true` | if you manage required packages yourself, disable it. |
-| `bbbackend_manage_repositories` | Add repositorys for bbb | `true` | if you add the repositorys for bbb by yourself, disable it. |
-|
+| `bbbackend__hostname` | Hostname for this BigBlueButton instance _(required)_ | `{{ ansible_fqdn }}` |
+| `bbbackend__state` | Install BigBlueButton to state | `present` | for updating BigBlueButton with this role use `latest` |
+| `bbbackend__manage_packages` | install requirements for bbb | `true` | if you manage required packages yourself, disable it. |
+| `bbbackend__manage_repositories` | Add repositorys for bbb | `true` | if you add the repositorys for bbb by yourself, disable it. |
+| `bbbackend__apt_mirror` | apt repo server for BigBlueButton packages | `https://ubuntu.bigbluebutton.org` | other value would be e.g. `https://packages-eu.bigbluebutton.org` |
+| `bbbackend__apt_key` | gpg key for the apt repo | `770C4267C5E63474D171B60937B5DD5EFAB46452` |
+| `bbbackend__letsencrypt_enable` | Enable letsencrypt/HTTPS | `true` |
+| `bbbackend__letsencrypt_email` | E-mail for use with letsencrypt | | *optional but recomended* |
+| `bbbackend__ssl_cert` | Path to TLS Certificate | `/etc/letsencrypt/live/{{ bbbackend__hostname }}/fullchain.pem` |
+| `bbbackend__ssl_key` | Path to TLS Certificate Key | `/etc/letsencrypt/live/{{ bbbackend__hostname }}/privkey.pem` |
+| `bbbackend__nginx_privacy` | only log errors not access | `true` |
+| `bbbackend__nginx_dh` | generate Diff-Hellmann for nginx | `true` | *same place like bbb-install.sh* |
+| `bbbackend__turn_enable` | enable the use uf TURN in general | `true` |
+| `bbbackend__stun_servers` | a list of STUN-Server to use | `{{ bbbackend__hostname }}` | an array with key `server` - take a look in defaults/main.yml
+| `bbbackend__ice_servers` | a list of RemoteIceCandidate for STUN | `[]` | in array with key `server`
+| `bbbackend__turn_servers` | a list of TURN-Server to use | | take a look in defaults/main.yml
+| `bbbackend__disable_recordings` | Disable options in gui to have recordings | `true` | [Recordings are running constantly in background](https://github.com/bigbluebutton/bigbluebutton/issues/9202) which is relevant as privacy relevant user data is stored
+| `bbbackend__mute_on_start:` | start with muted mic on join | `false` |
+| `bbbackend__app_log_level:` | set bigbluebutton log level | `DEBUG` |
+| `bbbackend__meteor:` | overwrite settings in meteor | `{}` |
+| `bbbackend__cpuschedule` | CPUSchedulingPolicy | `true` | Disable to fix [FreeSWITCH SETSCHEDULER error][bbb_cpuschedule] |
+| `bbbackend__freeswitch_ipv6` | Enable IPv6 support in FreeSWITCH | `false` | Disable to fix [FreeSWITCH IPv6 error][bbb_freeswitch_ipv6] |
+| `bbbackend__freeswitch_external_ip` | Set stun server for sip and rtp on FreeSWITCH | `stun:{{ (bbbackend__stun_servers | first).server }}` | WARNING: the value of the default freeswitch installation is `stun:stun.freeswitch.org` |
+| `bbbackend__dialplan_quality` | Set quality of dailplan for FreeSWITCH | `cdquality` |
+| `bbbackend__dialplan_energy_level` | Set energy level of dailplan for FreeSWITCH | `100` | only for selected profile `bbb_dialplan_quality`
+| `bbbackend__dialplan_comfort_noise` | Set comfort noise of dailplan for FreeSWITCH | `1400` | only for selected profile `bbb_dialplan_quality`
 
-
-
-| `bbb_hostname` | Hostname for this BigBlueButton instance _(required)_ | `{{ ansible_fqdn }}` |
-| `bbb_apt_mirror` | apt repo server for BigBlueButton packages | `https://ubuntu.bigbluebutton.org` | other value would be e.g. `https://packages-eu.bigbluebutton.org` |
-| `bbb_letsencrypt_enable` | Enable letsencrypt/HTTPS | `yes` |
-| `bbb_letsencrypt_email` | E-mail for use with letsencrypt | |
-| `bbb_nginx_privacy` | only log errors not access | `yes` |
-| `bbb_nginx_dh` | generate Diff-Hellmann for nginx | `yes` | same place like bbb-install.sh
-| `bbb_coturn_enable` | enable installation of the TURN-server | `yes` |
-| `bbb_coturn_server` | server name on coturn (realm) | `{{ bbb_hostname }}` |
-| `bbb_coturn_port` | the port for the TURN-Server to use | `3443` |
-| `bbb_coturn_port_tls` | the port for tls for the TURN-Server to use | `3443` |
-| `bbb_coturn_secret` | Secret for the TURN-Server  _(required)_ | | can be generated with `openssl rand -hex 16`
-| `bbb_turn_enable` | enable the use uf TURN in general | `yes` |
-| `bbb_stun_servers` | a list of STUN-Server to use | `{{ bbb_hostname }}` | an array with key `server` - take a look in defaults/main.yml
-| `bbb_ice_servers` | a list of RemoteIceCandidate for STUN | `[]` | in array with key `server`
-| `bbb_turn_servers` | a list of TURN-Server to use | `{{ bbb_hostname }}` with `{{ bbb_coturn_secret }}` | take a look in defaults/main.yml
-| `bbb_greenlight_hosts` | the hostname that greenlight is accessible from | `{{ bbb_hostname }}` |
-| `bbb_greenlight_secret` | Secret for greenlight _(required when using greenlight)_ |  | can be generated with `openssl rand -hex 64`
-| `bbb_greenlight_db_password` | Password for greenlight's database  _(required when using greenlight)_ | | can be generated with `openssl rand -hex 16`
-| `bbb_greenlight_default_registration` | Registration option open(default), invite or approval
-| `bbb_allow_mail_notifications`  | Set this to true if you want GreenLight to send verification emails upon the creation of a new account | `true` |
-| `bbbackend__disable_recordings` | Disable options in gui to have recordings | `no` | [Recordings are running constantly in background](https://github.com/bigbluebutton/bigbluebutton/issues/9202) which is relevant as privacy relevant user data is stored
-| `bbb_api_demos_enable` | enable installation of the api demos | `no` |
-| `bbb_mute_on_start:` | start with muted mic on join | `no` |
-| `bbb_app_log_level:` | set bigbluebutton log level | `DEBUG` |
-| `bbb_meteor:` | overwrite settings in meteor | `{}` |
-| `bbb_nodejs_version` | version of nodejs to be installed | `8.x` |
-| `bbb_system_locale` | the system locale to use | `en_US.UTF-8` |
-| `bbb_cpuschedule` | CPUSchedulingPolicy | `true` | Disable to fix [FreeSWITCH SETSCHEDULER error][bbb_cpuschedule] |
-| `bbb_freeswitch_ipv6` | Enable IPv6 support in FreeSWITCH | `true` | Disable to fix [FreeSWITCH IPv6 error][bbb_freeswitch_ipv6] |
-| `bbb_freeswitch_external_ip` | Set stun server for sip and rtp on FreeSWITCH | `stun:{{ (bbb_stun_servers | first).server }}` | WARNING: the value of the default freeswitch installation is `stun:stun.freeswitch.org` |
-| `bbb_dialplan_quality` | Set quality of dailplan for FreeSWITCH | `cdquality` |
-| `bbb_dialplan_energy_level` | Set energy level of dailplan for FreeSWITCH | `100` | only for selected profile `bbb_dialplan_quality`
-| `bbb_dialplan_comfort_noise` | Set comfort noise of dailplan for FreeSWITCH | `1400` | only for selected profile `bbb_dialplan_quality`
 
 ## Example Playbook
 This is an example, of how to use this role. Warning: the value of the Variables should be changed!
