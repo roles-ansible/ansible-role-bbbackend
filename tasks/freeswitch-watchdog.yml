@@ -14,7 +14,7 @@
 - name: enable systemd service for freeswitch-watchdog
   become: true
   systemd:
-    name: freeswitch-watchdog
+    name: freeswitch-watchdog.service
     state: started
     enabled: true
-    daemon_reload: ture
+    daemon_reload: true
