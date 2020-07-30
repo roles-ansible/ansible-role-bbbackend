@@ -17,6 +17,11 @@ WORK IN PROGRESS
 + add watchdog for freeswitch
 
 
+## Requirements
+
+To run bigbluebutton properly we need mongodb installed.<br/>
+This can be done with the role [github.com/roles-ansible/ansible-role-bbb-mongodb](https://github.com/roles-ansible/ansible-role-bbb-mongodb.git)
+
 ## Role Variables
 
 | Variable Name | Function | Default value | Comment |
