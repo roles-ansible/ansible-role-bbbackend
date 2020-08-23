@@ -9,6 +9,7 @@
   template:
     src: freeswitch-watchdog.service.j2
     dest: "/etc/systemd/system/freeswitch-watchdog.service"
+    mode: '0644'
   notify: restart freeswitch-watchdog
 
 - name: enable systemd service for freeswitch-watchdog

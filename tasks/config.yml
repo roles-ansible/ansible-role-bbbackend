@@ -125,6 +125,7 @@
     path: /var/www/bigbluebutton/client/conf/config.xml
     regexp: 'http://'
     replace: 'https://'
+    mode: '0644'
 
 - name: set note server to use HTTPS
   become: true
@@ -133,6 +134,7 @@
     path: /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml
     regexp: 'http://'
     replace: 'https://'
+    mode: '0644'
 
 - name: set korrento server to use HTTPS
   become: true
@@ -141,6 +143,7 @@
     path: /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml
     regexp: 'ws://'
     replace: 'wss://'
+    mode: '0644'
 
 - name: Read meteor
   become: true
@@ -255,6 +258,7 @@
     path: /opt/freeswitch/conf/dialplan/default/bbb_conference.xml
     regexp: '<action application="conference" data="\$1@.*"\/>'
     replace: '<action application="conference" data="$1@{{ bbbackend__dialplan_quality }}"/>'
+    mode: '0644'
   notify:
   - restart freeswitch
   - reload nginx
@@ -265,6 +269,7 @@
     path: /opt/freeswitch/conf/dialplan/default/bbb_echo_to_conference.xml
     regexp: '<action application="conference" data="\${vbridge}@.*"\/>'
     replace: '<action application="conference" data="${vbridge}@{{ bbbackend__dialplan_quality }}"/>'
+    mode: '0644'
   notify:
   - restart freeswitch
   - reload nginx
@@ -277,6 +282,7 @@
     before: '</profile>'
     regexp: '<param name="energy-level" value=".*"\/>'
     replace: '<param name="energy-level" value="{{ bbbackend__dialplan_energy_level }}"/>'
+    mode: '0644'
   notify:
   - restart freeswitch
   - reload nginx
@@ -289,6 +295,7 @@
     before:  '</profile>'
     regexp:  '<param name="comfort-noise" value=".*"\/>'
     replace: '<param name="comfort-noise" value="{{ bbbackend__dialplan_comfort_noise }}"/>'
+    mode: '0644'
   notify:
   - restart freeswitch
   - reload nginx
@@ -299,6 +306,7 @@
     path: /opt/freeswitch/etc/freeswitch/vars.xml
     regexp:  '<X-PRE-PROCESS cmd="set" data="external_rtp_ip=.*"\/>'
     replace: '<X-PRE-PROCESS cmd="set" data="external_rtp_ip={{ bbbackend__freeswitch_external_ip }}"/>'
+    mode: '0644'
   notify:
   - restart freeswitch
   - reload nginx
@@ -309,6 +317,7 @@
     path: /opt/freeswitch/etc/freeswitch/vars.xml
     regexp:  '<X-PRE-PROCESS cmd="set" data="external_sip_ip=.*"\/>'
     replace: '<X-PRE-PROCESS cmd="set" data="external_sip_ip={{ bbbackend__freeswitch_external_ip }}"/>'
+    mode: '0644'
   notify:
   - restart freeswitch
   - reload nginx

@@ -12,4 +12,5 @@
     src: /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
     dest: /etc/alternatives/java
     state: link
+    mode: '0755'
   notify: restart bigbluebutton
