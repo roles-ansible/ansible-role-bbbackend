@@ -4,6 +4,7 @@
   file:
     path: /etc/nginx/ssl
     state: directory
+    mode: '0644'
   when: bbbackend__nginx_dh
 
 - name: Deploy DH Parameters with a different size (4096 bits)
@@ -20,6 +21,7 @@
 - name: copy bbb's nginx vhost
   become: true
   template:
-     src: bbb/bigbluebutton.j2
-     dest: /etc/nginx/sites-available/bigbluebutton
+    src: bbb/bigbluebutton.j2
+    dest: /etc/nginx/sites-available/bigbluebutton
+    mode: '0644'
   notify: reload nginx
