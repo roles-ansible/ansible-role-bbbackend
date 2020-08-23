@@ -20,7 +20,6 @@
     path: /etc/letsencrypt/cli.ini
     line: 'server = https://acme-v02.api.letsencrypt.org/directory'
     mode: '0644'
-    mode: '0644'
 
 - name: Register certbot certificate file
   stat:
