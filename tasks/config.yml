@@ -17,6 +17,7 @@
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^attendeesJoinViaHTML5Client'
     line: 'attendeesJoinViaHTML5Client=true'
+    mode: '0644'
   notify: restart bigbluebutton
 
 - name: enable mod join via html5
@@ -25,6 +26,7 @@
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^moderatorsJoinViaHTML5Client'
     line: 'moderatorsJoinViaHTML5Client=true'
+    mode: '0644'
   notify: restart bigbluebutton
 
 - name: set bbb to use HTTPS
@@ -33,6 +35,7 @@
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^bigbluebutton.web.serverURL'
     line: 'bigbluebutton.web.serverURL=https://{{ bbbackend__hostname }}'
+    mode: '0644'
   notify: restart bigbluebutton
 
 - name: set recording default
@@ -41,6 +44,7 @@
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^disableRecordingDefault'
     line: 'disableRecordingDefault={{ bbbackend__disable_recordings | ternary("true", "false") }}'
+    mode: '0644'
   notify: restart bigbluebutton
 
 - name: ensure recording auto start is disabled
@@ -49,6 +53,7 @@
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^autoStartRecording'
     line: 'autoStartRecording=false'
+    mode: '0644'
   notify: restart bigbluebutton
 
 - name: allow/disable users to start recordings
@@ -57,6 +62,7 @@
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^allowStartStopRecording'
     line: 'allowStartStopRecording={{ bbbackend__disable_recordings | ternary("false", "true") }}'
+    mode: '0644'
   notify: restart bigbluebutton
 
 - name: set muteOnStart
@@ -65,6 +71,7 @@
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^muteOnStart'
     line: 'muteOnStart={{ bbbackend__mute_on_start | ternary("false", "true") }}'
+    mode: '0644'
   notify: restart bigbluebutton
 
 - name: set appLogLevel
@@ -73,6 +80,7 @@
     path: /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties
     regexp: '^appLogLevel'
     line: 'appLogLevel={{ bbbackend__app_log_level }}'
+    mode: '0644'
   notify: restart bigbluebutton
 
 - name: set red5 to use HTTPS 1/2
@@ -81,6 +89,7 @@
     path: /usr/share/red5/webapps/screenshare/WEB-INF/screenshare.properties
     regexp: '^jnlpUrl'
     line: 'jnlpUrl=https://{{ bbbackend__hostname }}/screenshare'
+    mode: '0644'
   notify: restart bigbluebutton
 
 - name: set red5 to use HTTPS 2/2
@@ -89,6 +98,7 @@
     path: /usr/share/red5/webapps/screenshare/WEB-INF/screenshare.properties
     regexp: '^jnlpFile'
     line: 'jnlpFile=https://{{ bbbackend__hostname }}/screenshare/screenshare.jnlp'
+    mode: '0644'
   notify: restart bigbluebutton
 
 - name: copy TURN config file
@@ -96,6 +106,7 @@
   template:
     src: bbb/turn-stun-servers.xml.j2
     dest: /usr/share/bbb-web/WEB-INF/classes/spring/turn-stun-servers.xml
+    mode: '0644'
   notify: restart bigbluebutton
 
 - name: serve recordings via https
@@ -104,6 +115,7 @@
     path: /usr/local/bigbluebutton/core/scripts/bigbluebutton.yml
     regexp: "playback_protocol"
     line: "playback_protocol: https"
+    mode: '0755'
   notify: restart bigbluebutton
 
 - name: set BigBlueButton client to load components via HTTPS
@@ -150,6 +162,7 @@
   copy:
     content: '{{ meteor  | to_nice_yaml }}'
     dest: /usr/share/meteor/bundle/programs/server/assets/app/config/settings.yml
+    mode: '0444'
 
 - name: configure freeswitch to use SSL
   become: true
@@ -157,6 +170,7 @@
     path: /etc/bigbluebutton/nginx/sip.nginx
     regexp: "proxy_pass"
     line: "        proxy_pass https://{{ ansible_default_ipv4.address }}:7443;"
+    mode: '0644'
   notify: reload nginx
 
 - name: enable CPUSchedulingPolicy in FreeSWITCH service
@@ -165,6 +179,7 @@
     path: /lib/systemd/system/freeswitch.service
     regexp: '^#?CPUSchedulingPolicy=rr'
     line: 'CPUSchedulingPolicy=rr'
+    mode: '0644'
   notify:
   - restart freeswitch
   - reload systemd
@@ -176,6 +191,7 @@
     path: /lib/systemd/system/freeswitch.service
     regexp: '^#?CPUSchedulingPolicy=rr'
     line: '#CPUSchedulingPolicy=rr'
+    mode: '0644'
   notify:
   - freeswitch
   - reload systemd
@@ -201,6 +217,7 @@
     path: /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
     regexp: '<param name="listen-ip" value="127.0.0.1"/>'
     line: '<param name="listen-ip" value="::"/>'
+    mode: '0644'
   when: bbbackend__freeswitch_ipv6 | bool
   notify:
   - restart freeswitch
@@ -226,6 +243,7 @@
     path: /opt/freeswitch/etc/freeswitch/autoload_configs/event_socket.conf.xml
     regexp: '<param name="listen-ip" value="::"/>'
     line: '<param name="listen-ip" value="127.0.0.1"/>'
+    mode: '0644'
   when: not bbbackend__freeswitch_ipv6 | bool
   notify:
   - restart freeswitch
