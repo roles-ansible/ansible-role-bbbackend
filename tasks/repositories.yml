@@ -11,6 +11,7 @@
   apt_repository:
     repo: "{{ item }}"
     state: present
+    mode: '0644'
   with_items:
     - "deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release | lower }} multiverse"
     - "deb-src http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release | lower }} multiverse"
@@ -22,6 +23,7 @@
   apt_repository:
     repo: "{{ item }}"
     state: present
+    mode: '0644'
   when: ansible_distribution_release == 'xenial'
   with_items:
     - ppa:bigbluebutton/support
@@ -32,6 +34,7 @@
   apt_repository:
     repo: "{{ item }}"
     state: present
+    mode: '0644'
   with_items:
     - "deb {{ bbbackend__apt_mirror }}/xenial-22/ bigbluebutton-xenial main"
   when: ansible_distribution_release == 'xenial'
