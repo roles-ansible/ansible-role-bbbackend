@@ -13,6 +13,7 @@ bbbackend__required_packages:
   - python-wheel
   - python3-wheel
   - openjdk-8-jdk
+  - apt-transport-https
 
 bbbackend__bbb_and_dependencies:
   - bbb-check
