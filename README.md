@@ -3,7 +3,10 @@ Ansible role for a backend bigbluebutton installation. Without any extra feature
 *(please visit the documentation on http://docs.bigbluebutton.org/install/install.html)*
 
 ```
-WORK IN PROGRESS
+NO LONGER MAINTAINED
+
+Sorry
+
 ```
 
 ## What does this role do?
